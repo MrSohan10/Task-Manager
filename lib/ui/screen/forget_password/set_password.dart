@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screen/forget_password/pin_verify.dart';
 import 'package:task_manager/ui/screen/login_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
@@ -19,6 +18,7 @@ class _SetPasswordState extends State<SetPassword> {
           child: Padding(
             padding: const EdgeInsets.all(48),
             child: SingleChildScrollView(
+              reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,8 +62,7 @@ class _SetPasswordState extends State<SetPassword> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: const Text("Confirm",style: TextStyle(fontSize: 16),),
                     ),
                   ),

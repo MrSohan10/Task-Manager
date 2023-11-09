@@ -3,14 +3,14 @@ import 'package:task_manager/ui/screen/forget_password/pin_verify.dart';
 import 'package:task_manager/ui/screen/login_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
-class ForgetPassEmail extends StatefulWidget {
-  const ForgetPassEmail({super.key});
+class EmailVerification extends StatefulWidget {
+  const EmailVerification({super.key});
 
   @override
-  State<ForgetPassEmail> createState() => _ForgetPassEmailState();
+  State<EmailVerification> createState() => _EmailVerificationState();
 }
 
-class _ForgetPassEmailState extends State<ForgetPassEmail> {
+class _EmailVerificationState extends State<EmailVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +55,7 @@ class _ForgetPassEmailState extends State<ForgetPassEmail> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => const ForgetPassPin()));
+                            builder: (context) => const PinVerification()));
                       },
                       child: const Icon(Icons.arrow_circle_right_outlined),
                     ),

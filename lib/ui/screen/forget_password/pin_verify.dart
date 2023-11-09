@@ -4,14 +4,14 @@ import 'package:task_manager/ui/screen/forget_password/set_password.dart';
 import 'package:task_manager/ui/screen/login_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
-class ForgetPassPin extends StatefulWidget {
-  const ForgetPassPin({super.key});
+class PinVerification extends StatefulWidget {
+  const PinVerification({super.key});
 
   @override
-  State<ForgetPassPin> createState() => _ForgetPassPinState();
+  State<PinVerification> createState() => _PinVerificationState();
 }
 
-class _ForgetPassPinState extends State<ForgetPassPin> {
+class _PinVerificationState extends State<PinVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,20 +43,23 @@ class _ForgetPassPinState extends State<ForgetPassPin> {
                     height: 32,
                   ),
                   PinCodeTextField(
-
                     keyboardType: TextInputType.number,
                     length: 6,
-                    obscureText: false,
+                    obscureText: true,
+                    obscuringCharacter: "*",
                     animationType: AnimationType.fade,
                     pinTheme: PinTheme(
                       shape: PinCodeFieldShape.box,
                       borderRadius: BorderRadius.circular(5),
                       fieldHeight: 50,
                       fieldWidth: 40,
-                      activeFillColor: Colors.white,
                       activeColor: Colors.green,
+                      selectedColor: Colors.blue,
+                      inactiveColor: Colors.red,
+                      activeFillColor: Colors.white,
                       selectedFillColor: Colors.white,
                       inactiveFillColor: Colors.white,
+
                     ),
                     animationDuration: const Duration(milliseconds: 200),
                     enableActiveFill: true,

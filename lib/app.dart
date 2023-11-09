@@ -26,7 +26,7 @@ class _TaskManagerState extends State<TaskManager> {
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(borderSide: BorderSide.none),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide.none)),
+              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green))),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 8),

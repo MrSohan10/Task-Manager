@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screen/forget_password/email_verify.dart';
+import 'package:task_manager/ui/screen/main_butom_nav-screen.dart';
 import 'package:task_manager/ui/screen/sign_up_screen.dart';
 import 'package:task_manager/ui/widget/body_background.dart';
 
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Padding(
             padding: const EdgeInsets.all(48),
             child: SingleChildScrollView(
+              reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -35,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
+                      labelText: "E-mail",
                       hintText: "Enter Email",
                     ),
                   ),
@@ -44,7 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                      hintText: "Password",
+                      labelText: "Password",
+                      hintText: "Enter Password",
                     ),
                   ),
                   const SizedBox(
@@ -53,8 +57,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Icon(Icons.arrow_circle_right_outlined),
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MainBottomNavScreen()),
+                            (route) => false);
+                      },
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -66,7 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ForgetPassEmail()));
+                                builder: (context) =>
+                                    const EmailVerification()));
                       },
                       child: const Text(
                         "Forget Password ?",
