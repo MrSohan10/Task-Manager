@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class SummaryCard extends StatelessWidget {
   const SummaryCard({
     super.key,
@@ -15,7 +16,7 @@ class SummaryCard extends StatelessWidget {
     return Card(
       shadowColor: Colors.black,
       elevation: 5,
-      margin: EdgeInsets.only(top: 8, left: 8),
+      margin: EdgeInsets.only(top: 8, left: 8,right: 8),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         child: Column(

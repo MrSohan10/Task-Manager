@@ -1,15 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/data/model/task.dart';
+import 'package:task_manager/data/network_caller.dart';
+import 'package:task_manager/data/network_response.dart';
+
+import '../../data/utility.dart';
+
+enum TaskStatus { New, Progress, Completed, Cancelled }
 
 class TaskItemCard extends StatefulWidget {
   const TaskItemCard({
     super.key,
+    required this.task,
+    required this.onDelete,
+
+    required this.onStatusChange,
   });
+
+  final Task task;
+  final VoidCallback onDelete;
+  final VoidCallback onStatusChange;
+
 
   @override
   State<TaskItemCard> createState() => _TaskItemCardState();
 }
 
 class _TaskItemCardState extends State<TaskItemCard> {
+  Future<void> deleteTask() async {
+    final NetworkResponse response =
+        await NetworkCaller().getRequest(Urls.deleteTask(widget.task.sId));
+    if (response.isSuccess) {
+      widget.onDelete();
+    }
+  }
+
+  Future<void> updateTaskStatus(status) async {
+
+    final response = await NetworkCaller()
+        .getRequest(Urls.updateTaskStatus(widget.task.sId.toString(), status));
+    if (response.isSuccess) {
+      widget.onStatusChange();
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,26 +54,35 @@ class _TaskItemCardState extends State<TaskItemCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Title will be here',
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w500),
+              widget.task.title ?? '',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
-            Text('Description'),
-            Text("Date: 12-12-2020"),
+            Text(widget.task.description ?? ''),
+            Text("Date: ${widget.task.createdDate}"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Chip(
                   label: Text(
-                    "New",
+                    widget.task.status ?? 'New',
                     style: const TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.blue,
                 ),
                 Wrap(
                   children: [
-                    IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.green,)),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever,color: Colors.red,)),
+                    IconButton(
+                        onPressed: showUpdateStatusModel,
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.green,
+                        )),
+                    IconButton(
+                        onPressed: deleteTask,
+                        icon: Icon(
+                          Icons.delete_forever_rounded,
+                          color: Colors.red,
+                        )),
                   ],
                 )
               ],
@@ -48,5 +91,36 @@ class _TaskItemCardState extends State<TaskItemCard> {
         ),
       ),
     );
+  }
+
+  Future<void> showUpdateStatusModel() async {
+    List<ListTile> itmes = TaskStatus.values
+        .map((e) => ListTile(
+              title: Text('${e.name}'),
+              onTap: () {
+                updateTaskStatus(e.name);
+                Navigator.pop(context);
+              },
+            ))
+        .toList();
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Update Status"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: itmes,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"))
+            ],
+          );
+        });
   }
 }

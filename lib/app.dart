@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screen/splash_screen.dart';
 
-class TaskManager extends StatefulWidget {
+class TaskManager extends StatelessWidget {
+  static GlobalKey <NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
   const TaskManager({super.key});
-
-  @override
-  State<TaskManager> createState() => _TaskManagerState();
-}
-
-class _TaskManagerState extends State<TaskManager> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigationKey,
       home: const SplashScreen(),
       theme: ThemeData(
           primaryColor: Colors.green,

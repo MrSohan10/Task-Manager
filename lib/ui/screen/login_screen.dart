@@ -46,7 +46,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Text(
                       "Get Started With",
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .titleLarge,
                     ),
                     const SizedBox(
                       height: 32,
@@ -59,10 +62,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: "Enter Email",
                       ),
                       validator: (value) {
-                        if (value?.trim().isEmpty ?? true) {
+                        if (value
+                            ?.trim()
+                            .isEmpty ?? true) {
                           return "Enter Value";
                         } else if (RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value!)) {
                           return null;
                         }
@@ -97,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Visibility(
                         visible: _loginInProgress == false,
                         replacement:
-                            const Center(child: CircularProgressIndicator()),
+                        const Center(child: CircularProgressIndicator()),
                         child: ElevatedButton(
                           onPressed: login,
                           child: const Text(
@@ -117,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const EmailVerification()));
+                                  const EmailVerification()));
                         },
                         child: const Text(
                           "Forget Password ?",
@@ -141,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const SignUpScreen()));
+                                    const SignUpScreen()));
                           },
                           child: const Text(
                             "Sign up",
@@ -173,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: {
           "email": _emailController.text.trim(),
           "password": _passwordController.text
-        });
+        },isLogin: true);
     _loginInProgress = false;
     if (mounted) {
       setState(() {});
@@ -183,10 +188,9 @@ class _LoginScreenState extends State<LoginScreen> {
       await AuthController.saveInformation(response.jsonResponse['token'],
           UserModel.fromJson(response.jsonResponse['data']));
       if (mounted) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const MainBottomNavScreen()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) => const MainBottomNavScreen()), (
+            route) => false);
       }
     } else {
       if (response.statusCode == 401) {
