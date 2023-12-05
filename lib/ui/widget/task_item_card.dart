@@ -12,14 +12,14 @@ class TaskItemCard extends StatefulWidget {
     super.key,
     required this.task,
     required this.onDelete,
-
+    required this.color,
     required this.onStatusChange,
   });
 
+  final Color color;
   final Task task;
   final VoidCallback onDelete;
   final VoidCallback onStatusChange;
-
 
   @override
   State<TaskItemCard> createState() => _TaskItemCardState();
@@ -35,13 +35,11 @@ class _TaskItemCardState extends State<TaskItemCard> {
   }
 
   Future<void> updateTaskStatus(status) async {
-
     final response = await NetworkCaller()
         .getRequest(Urls.updateTaskStatus(widget.task.sId.toString(), status));
     if (response.isSuccess) {
       widget.onStatusChange();
     }
-
   }
 
   @override
@@ -67,18 +65,19 @@ class _TaskItemCardState extends State<TaskItemCard> {
                     widget.task.status ?? 'New',
                     style: const TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: widget.color,
                 ),
                 Wrap(
                   children: [
                     IconButton(
                         onPressed: showUpdateStatusModel,
                         icon: Icon(
-                          Icons.edit,
+                          Icons.edit_note,
+                          size: 30,
                           color: Colors.green,
                         )),
                     IconButton(
-                        onPressed: deleteTask,
+                        onPressed: showDeleteDialog,
                         icon: Icon(
                           Icons.delete_forever_rounded,
                           color: Colors.red,
@@ -114,6 +113,30 @@ class _TaskItemCardState extends State<TaskItemCard> {
               children: itmes,
             ),
             actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"))
+            ],
+          );
+        });
+  }
+
+  void showDeleteDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Delete Task"),
+            content: Text("Do you want to delete task?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    deleteTask();
+                    Navigator.pop(context);
+                  },
+                  child: Text("Yes")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);

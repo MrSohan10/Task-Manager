@@ -54,9 +54,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (value) {
                         if (value?.trim().isEmpty ?? true) {
                           return "Enter Value";
-                        }else if(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!)){
+                        } else if (RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!)) {
                           return null;
-                        };
+                        }
+                        ;
                         return "invalid E-mail";
                       },
                     ),
@@ -100,7 +103,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       validator: (value) {
                         if (value?.trim().isEmpty ?? true) {
                           return "Enter Value";
-                        }else if(RegExp(r"^(?:(?:\+|00)88|01)?\d{11}$").hasMatch(value!)){
+                        } else if (RegExp(r"^(?:(?:\+|00)88|01)?\d{11}$")
+                            .hasMatch(value!)) {
                           return null;
                         }
                         return "Enter valid 11 digit number";
@@ -130,11 +134,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: double.infinity,
                       child: Visibility(
                         visible: _signupInProgress == false,
-                        replacement:const Center(
+                        replacement: const Center(
                           child: CircularProgressIndicator(),
                         ),
                         child: ElevatedButton(
-                          onPressed:_signUp,
+                          onPressed: _signUp,
                           child: const Text(
                             "Sign up",
                             style: TextStyle(fontSize: 16),
@@ -183,42 +187,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
       _signupInProgress = true;
-      if(mounted){
+      if (mounted) {
         setState(() {});
       }
-      final NetworkResponse response = await NetworkCaller()
-          .postRequest(Urls.registration,body: {
-        "email":_emailController.text.trim(),
-        "firstName":_firstNameController.text.trim(),
-        "lastName":_lastNameController.text.trim(),
-        "mobile":_mobileController.text.trim(),
-        "password":_passwordController.text,
-        "photo":"",
+      final NetworkResponse response =
+          await NetworkCaller().postRequest(Urls.registration, body: {
+        "email": _emailController.text.trim(),
+        "firstName": _firstNameController.text.trim(),
+        "lastName": _lastNameController.text.trim(),
+        "mobile": _mobileController.text.trim(),
+        "password": _passwordController.text,
+        "photo": "",
       });
       _signupInProgress = false;
-      if(mounted){
+      if (mounted) {
         setState(() {});
       }
 
-      if(response.isSuccess){
-        _clearTextField();
-       if(mounted){
-         showSnackbar(context, 'Account has been created! please login');
-       }
-      }else{
-       if(mounted){
-         showSnackbar(context, 'Account create failed! please try again',true);
-       }
+      if (response.isSuccess) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false);
+        if (mounted) {
+          showSnackbar(context, 'Account has been created! please login');
+        }
+      } else {
+        if (mounted) {
+          showSnackbar(
+              context, 'Account create failed! please try again', true);
+        }
       }
     }
-  }
-
-  void _clearTextField(){
-    _emailController.clear();
-    _firstNameController.clear();
-    _lastNameController.clear();
-    _mobileController.clear();
-    _passwordController.clear();
   }
 
   @override

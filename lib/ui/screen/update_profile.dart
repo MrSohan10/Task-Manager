@@ -211,12 +211,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
     _updateInProgress = false;
     if (response.isSuccess) {
       AuthController.updateInformation(UserModel(
-        email: _emailController.text.trim(),
-        firstName: _firstNameController.text.trim(),
-        lastName: _lastNameController.text.trim(),
-        mobile: _mobileController.text.trim(),
-        photo: photoInBase64 ?? AuthController.user?.photo
-      ));
+          email: _emailController.text.trim(),
+          firstName: _firstNameController.text.trim(),
+          lastName: _lastNameController.text.trim(),
+          mobile: _mobileController.text.trim(),
+          photo: photoInBase64 ?? AuthController.user?.photo));
       if (mounted) {
         showSnackbar(context, "Update profile Success!");
       }
@@ -251,15 +250,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
           Expanded(
               flex: 3,
               child: InkWell(
-                onTap: () async {
-                  final XFile? image = await ImagePicker()
-                      .pickImage(source: ImageSource.camera, imageQuality: 50);
-                  if (image != null) {
-                    photo = image;
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  }
+                onTap: () {
+                  showPhotoPickerBottomModel();
                 },
                 child: Container(
                   padding: const EdgeInsets.only(left: 16),
@@ -273,6 +265,75 @@ class _UpdateProfileState extends State<UpdateProfile> {
         ],
       ),
     );
+  }
+
+  void showPhotoPickerBottomModel() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              final XFile? image = await ImagePicker()
+                                  .pickImage(
+                                      source: ImageSource.gallery,
+                                      imageQuality: 50);
+                              if (image != null) {
+                                photo = image;
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                              }
+                            },
+                            icon: Icon(
+                              Icons.image,
+                              size: 36,
+                              color: Colors.green,
+                            )),
+                        Text("  Gallery", style: TextStyle(fontSize: 20))
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              final XFile? image = await ImagePicker()
+                                  .pickImage(
+                                  source: ImageSource.camera,
+                                  imageQuality: 50);
+                              if (image != null) {
+                                photo = image;
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                              }
+                            },
+                            icon: Icon(
+                              Icons.camera_alt_rounded,
+                              size: 36,
+                              color: Colors.green,
+                            )),
+                        Text(
+                          "  Camera",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
   }
 
   @override

@@ -29,7 +29,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     if (mounted) {
       setState(() {});
     }
-   final NetworkResponse response = await NetworkCaller().getRequest(Urls.taskCount);
+    final NetworkResponse response =
+        await NetworkCaller().getRequest(Urls.taskCount);
     if (response.isSuccess) {
       taskCountModel = TaskCountModel.fromJson(response.jsonResponse);
     }
@@ -44,7 +45,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     if (mounted) {
       setState(() {});
     }
-   final NetworkResponse response =
+    final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.newTaskList);
     if (response.isSuccess) {
       taskListModel = TaskListModel.fromJson(response.jsonResponse);
@@ -70,7 +71,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const AddNewTaskScreen()));
+                  builder: (context) => AddNewTaskScreen(
+                        onSave: () {
+                          getTaskCount();
+                          getNewTaskList();
+                        },
+                      )));
         },
         child: Icon(Icons.add),
       ),
@@ -118,12 +124,13 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   itemCount: taskListModel.taskList?.length ?? 0,
                   itemBuilder: (context, index) {
                     return TaskItemCard(
+                      color: Colors.blue,
                       task: taskListModel.taskList![index],
                       onDelete: () {
                         getTaskCount();
                         getNewTaskList();
                       },
-                      onStatusChange: (){
+                      onStatusChange: () {
                         getTaskCount();
                         getNewTaskList();
                       },

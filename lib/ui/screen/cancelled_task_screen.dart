@@ -58,6 +58,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
                     itemCount: taskListModel.taskList?.length ?? 0,
                     itemBuilder: (context, index) {
                       return TaskItemCard(
+                        color: Colors.red,
                         task: taskListModel.taskList![index],
                         onDelete: () {
                           getCancelledTask();

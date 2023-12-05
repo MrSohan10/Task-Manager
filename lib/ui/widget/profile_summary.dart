@@ -18,10 +18,16 @@ class ProfileSummary extends StatefulWidget {
 }
 
 class _ProfileSummaryState extends State<ProfileSummary> {
-  Uint8List imageBytes = const Base64Decoder().convert(AuthController.user?.photo?? '');
-  
+  String? imageFormat = AuthController.user?.photo ?? "";
+
   @override
   Widget build(BuildContext context) {
+    if (imageFormat!.startsWith('data:image')) {
+      imageFormat =
+          imageFormat!.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), " ");
+    }
+    Uint8List imageBytes = const Base64Decoder().convert(imageFormat!);
+
     return ListTile(
         onTap: () {
           if (widget.enableOnTap) {
@@ -31,11 +37,13 @@ class _ProfileSummaryState extends State<ProfileSummary> {
         },
         tileColor: Colors.green,
         leading: CircleAvatar(
-            child: AuthController.user?.photo == null
+            child: imageBytes.isEmpty
                 ? const Icon(Icons.person_2_outlined)
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.memory(imageBytes,fit: BoxFit.fill,),
+                : CircleAvatar(
+                    backgroundImage: Image.memory(
+                      imageBytes,
+                      fit: BoxFit.cover,
+                    ).image,
                   )),
         title: Text(
           fullName,
@@ -46,18 +54,39 @@ class _ProfileSummaryState extends State<ProfileSummary> {
           style: const TextStyle(color: Colors.white),
         ),
         trailing: IconButton(
-          onPressed: () async {
-            await AuthController.clearAuthData();
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false);
-          },
+          onPressed: showLogOutDialog,
           icon: Icon(Icons.logout_outlined),
         ));
   }
 
   String get fullName {
     return '${AuthController.user?.firstName ?? ''} ${AuthController.user?.lastName ?? ''}';
+  }
+
+  void showLogOutDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("LogOut"),
+            content: Text("Do you want to Logout?"),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    await AuthController.clearAuthData();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            (route) => false);
+                  },
+                  child: Text("Yes")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"))
+            ],
+          );
+        });
   }
 }

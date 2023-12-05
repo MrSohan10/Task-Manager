@@ -7,10 +7,10 @@ import 'package:task_manager/ui/widget/profile_summary.dart';
 import 'package:task_manager/ui/widget/snackbar_message.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
-  const AddNewTaskScreen({super.key});
-
+  const AddNewTaskScreen({super.key, required this.onSave});
   @override
   State<AddNewTaskScreen> createState() => _AddNewTaskScreenState();
+  final VoidCallback onSave;
 }
 
 class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
@@ -114,6 +114,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       if(response.isSuccess){
         _titleController.clear();
     _descriptionController.clear();
+    widget.onSave();
         if(mounted){
           showSnackbar(context, 'New Task add Successfully!');
         }

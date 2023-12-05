@@ -62,6 +62,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       itemCount: taskListModel.taskList?.length ?? 0,
                       itemBuilder: (context, index) {
                         return TaskItemCard(
+                          color: Colors.green,
                           task: taskListModel.taskList![index],
                           onDelete: () {
                             getCompletedTask();
