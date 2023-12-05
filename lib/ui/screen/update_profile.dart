@@ -293,6 +293,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   setState(() {});
                                 }
                               }
+                              Navigator.pop(context);
                             },
                             icon: Icon(
                               Icons.image,
@@ -316,6 +317,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   setState(() {});
                                 }
                               }
+                              Navigator.pop(context);
                             },
                             icon: Icon(
                               Icons.camera_alt_rounded,
