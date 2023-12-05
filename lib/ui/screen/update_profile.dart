@@ -272,6 +272,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
   void showPhotoPickerBottomModel() {
     showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
         context: context,
         builder: (context) {
           return Padding(
@@ -312,8 +314,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             onPressed: () async {
                               final XFile? image = await ImagePicker()
                                   .pickImage(
-                                  source: ImageSource.camera,
-                                  imageQuality: 50);
+                                      source: ImageSource.camera,
+                                      imageQuality: 50);
                               if (image != null) {
                                 photo = image;
                                 if (mounted) {
