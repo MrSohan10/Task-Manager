@@ -253,7 +253,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               child: InkWell(
                 onTap: () async {
                   final XFile? image = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery, imageQuality: 50);
+                      .pickImage(source: ImageSource.camera, imageQuality: 50);
                   if (image != null) {
                     photo = image;
                     if (mounted) {

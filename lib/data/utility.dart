@@ -11,9 +11,15 @@ class Urls {
   static  String cancelTaskList = '$_baseUrl/listTaskByStatus/${TaskStatus.Cancelled.name}';
   static const String taskCount = '$_baseUrl/taskStatusCount';
  static const String updateProfile = '$_baseUrl/profileUpdate';
-
   static String deleteTask(id) => '$_baseUrl/deleteTask/$id';
-
   static String updateTaskStatus(String id, String status) =>
       '$_baseUrl/updateTaskStatus/$id/$status';
+
+  static String verifyEmail(String mail) =>
+      '$_baseUrl/RecoverVerifyEmail/$mail';
+
+  static String verifyPin(mail,pin) =>
+      '$_baseUrl/RecoverVerifyOTP/$mail/$pin';
+  static const String resetPass = '$_baseUrl/RecoverResetPass';
+
 }

@@ -118,8 +118,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value?.isEmpty ?? true) {
                           return "Enter Value";
                         }
-                        if (value!.length < 6) {
-                          return "Enter password more then 6 digit";
+                        if (value!.length < 8) {
+                          return "Enter password more then 8 digit";
                         }
                       },
                     ),
