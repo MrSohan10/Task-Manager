@@ -26,7 +26,7 @@ class TaskManager extends StatelessWidget {
               focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.green))),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: EdgeInsets.symmetric(vertical: 14),
           ))),
     );
   }

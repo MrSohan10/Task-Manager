@@ -209,6 +209,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
     final NetworkResponse response =
         await NetworkCaller().postRequest(Urls.updateProfile, body: inputData);
     _updateInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
     if (response.isSuccess) {
       AuthController.updateInformation(UserModel(
           email: _emailController.text.trim(),
